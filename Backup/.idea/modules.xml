@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Backup.iml" filepath="$PROJECT_DIR$/.idea/Backup.iml" />
       <module fileurl="file://$USER_HOME$/PycharmProjects/Backup/.idea/Backup.iml" filepath="$USER_HOME$/PycharmProjects/Backup/.idea/Backup.iml" />
     </modules>
   </component>

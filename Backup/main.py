@@ -25,25 +25,46 @@ def html_handler(content, dir_html):
 
 def img_handler(content, dir_img):
     img_src = re.findall(pattern_img, content)
+    img_thread_hub = []
     for item in img_src:
         if len(item[2]) == 0:
             dir_img_single = dir_img + item[3]
-            urllib.urlretrieve(item[1], dir_img_single)
+            img_thread_hub.append(threading.Thread(target=urllib.urlretrieve(item[1], dir_img_single)))
         else:
             dir_img_single = dir_img + item[2]
-            urllib.urlretrieve(item[1], dir_img_single)
+            img_thread_hub.append(threading.Thread(target=urllib.urlretrieve(item[1], dir_img_single)))
+
+    for item in img_thread_hub:
+        item.start()
+    
+    for item in img_thread_hub:
+        item.join()
 
 def js_handler(content, dir_js):
     js_src = re.findall(pattern_js, content)
+    js_thread_hub = []
     for item in js_src:
         dir_js_single = dir_js+item[1]
-        urllib.urlretrieve(item[0], dir_js_single)
+        js_thread_hub.append(threading.Thread(target=urllib.urlretrieve(item[0], dir_js_single)))
+
+    for item in js_thread_hub:
+        item.start()
+
+    for item in js_thread_hub:
+        item.join()
 
 def css_handler(content, dir_css):
     css_src = re.findall(pattern_css, content)
+    css_thread_hub = []
     for item in css_src:
         dir_css_single = dir_css + item[1]
-        urllib.urlretrieve(item[0], dir_css_single)
+        css_thread_hub.append(threading.Thread(target=urllib.urlretrieve(item[0], dir_css_single)))
+
+    for item in css_thread_hub:
+        item.start()
+
+    for item in css_thread_hub:
+        item.join()
 
 
 def backup(timestamp, url, directory):
@@ -77,7 +98,6 @@ def main(argv):
         timestamp = get_timestamp()
         backup_thread = threading.Thread(target=backup(timestamp, argv[2], argv[3]))
         backup_thread.start()
-        backup_thread.join()
         time.sleep(float(argv[1]))
 
 if __name__ == '__main__':
